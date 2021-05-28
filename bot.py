@@ -32,18 +32,54 @@ def keyboard():
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(message.chat.id, f"Хелоу ♥")
+    bot.send_message(message.chat.id, f"Хелоу 🙈 \nНапиши название фильма/сериала и я найду его 👍 \n- Например: 'кто я' 🙌")
 
+
+@bot.message_handler(commands=['top_films'])
+def send_welcome(message):
+    bot.send_message(message.chat.id, f"Топ 10 популярных фильмов 🙈")
+    chat_id = message.chat.id
+    result = parsing.get_popular_film()
+    i = 0
+    for res in result:
+        if i > 9:
+            break
+        # bot.send_message(chat_id, f"{res['title']}. \n {res['year']}. \n",
+        #                  reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм', url=res['URL'])]]))
+        bot.send_photo(chat_id, res['img'],
+                       reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм', url=res['URL'])]]))
+        i += 1
+
+
+@bot.message_handler(commands=['top_series'])
+def send_welcome(message):
+    bot.send_message(message.chat.id, f"Топ 10 популярных сериалов 🧞‍♂️")
+    chat_id = message.chat.id
+    result = parsing.get_popular_series()
+    i = 0
+    for res in result:
+        if i > 9:
+            break
+        # bot.send_message(chat_id, f"{res['title']}. \n {res['year']}. \n",
+        #                  reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм', url=res['URL'])]]))
+        bot.send_photo(chat_id, res['img'],
+                       reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть сериал', url=res['URL'])]]))
+        i += 1
 
 @bot.message_handler(content_types=["text"])
 def send_anytext(message):
     chat_id = message.chat.id
     result = parsing.get_film(message.text)
-    bot.send_message(chat_id, f"По запросу: '{message.text}' найдено {len(result)} фильмов/сериалов.")
+    bot.send_message(chat_id, f"По запросу: ' {message.text} ' найдено {len(result)} фильмов/сериалов 🙌")
+    i = 0
     for res in result:
-        bot.send_message(chat_id, f"{res['title']}. \n {res['year']}. \n",
+        if i > 4:
+            break
+        # bot.send_message(chat_id, f"{res['title']}. \n {res['year']}. \n",
+        #                  reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм', url=res['URL'])]]))
+        bot.send_photo(chat_id, res['img'],
                          reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм', url=res['URL'])]]))
-        bot.send_photo(chat_id, res['img'])
+        i += 1
 
 
 @bot.callback_query_handler(func=lambda message: True)
