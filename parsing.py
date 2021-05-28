@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
+# Получить фильм по запросу
 def get_film(title):
     url_search = f"https://rezka.ag/search/?do=search&subaction=search&q={title}"
     page = 1
