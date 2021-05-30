@@ -81,7 +81,7 @@ def send_anytext(message):
         if i == len(result) / 2:
             break
         # bot.send_message(chat_id, f"{res['title']}. \n {res['year']}. \n",
-        #                  reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм', url=res['URL'])]]))
+        #                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм', url=res['URL'])]]))
         bot.send_photo(chat_id, res['img'],
                          reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='Смотреть фильм 👀', url=res['URL'])]]))
         i += 1
